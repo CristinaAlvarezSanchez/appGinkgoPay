@@ -1,0 +1,50 @@
+@hostname = http://localhost
+@port = 3000
+@url = {{hostname}}:{{port}}
+
+### devuelve objeto con usuario busqueda por id
+GET {{url}}/api/users/1
+
+### devuelve array con usuarios que coinciden con alias o email con cadena de texto enviada
+GET {{url}}/api/users/search/al
+
+### devuelve array con usuarios de un grupo
+GET {{url}}/api/users/group/2
+
+### crea un usuario. devuelve usuario creado incluyendo su Id. 
+POST {{url}}/api/users/register
+Content-Type: application/json
+
+{
+    "nombre": "Cristina", 
+    "apellidos": "Alvarez", 
+    "alias": "alvarezsanchezc4", 
+    "email": "cristinano@no23.com", 
+    "password":"123456"
+}
+
+### Login usuario
+POST {{url}}/api/users/login
+Content-Type: application/json
+
+{
+    "email": "cristinano@no2.com", 
+    "password":"123456"
+}
+
+### actualiza un usuario y devuelve el usuario con las modificaciones 
+PUT {{url}}/api/users/update/13
+Content-Type: application/json
+
+{
+    "nombre": "Cristina", 
+    "apellidos": "Alvarez", 
+    "alias": "alvarezsanchezc", 
+    "email": "cristinano@no4.com", 
+    "password":"123456"
+}
+
+
+### borra un usuario 
+DELETE {{url}}/api/users/delete/13
+

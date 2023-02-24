@@ -1,0 +1,45 @@
+@hostname = http://localhost
+@port = 3000
+@url = {{hostname}}:{{port}}
+
+### devuelve objeto con grupo buscado por id grupo
+GET {{url}}/api/groups/1
+
+### devuelve array con grupos de un usuario (user id) 
+GET {{url}}/api/groups/user/11
+
+### crea un grupo y asigna al creador como administrador y primer usuarios del grupo. 
+POST {{url}}/api/groups/new/11
+Content-Type: application/json
+
+{
+    "nombre": "prueba de grupo"
+}
+
+### asigna usuarios a un grupo (miembros y sin autorizar). 
+GET {{url}}/api/groups/1/adduser/11
+
+### para autorizar la participación en el grupo. 
+GET {{url}}/api/groups/2/authorization/11
+
+### actualiza nombre del grupo - devuelve objeto modificado
+PUT {{url}}/api/groups/update/10
+Content-Type: application/json
+
+{
+    "nombre": "prueba de cambio grupo creado desde el back"
+}
+
+###  actualiza el estado de un grupo /activo o archivado - devuelve objeto modificado
+PUT {{url}}/api/groups/updatestate/10
+Content-Type: application/json
+
+{
+    "estado": "archivado"
+}
+
+###  borra un grupo en base a su id res ok
+DELETE {{url}}/api/groups/delete/10
+
+###  borra un usuario de un grupo res ok
+DELETE {{url}}/api/groups/9/userdelete/11

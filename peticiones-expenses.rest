@@ -1,0 +1,57 @@
+@hostname = http://localhost
+@port = 3000
+@url = {{hostname}}:{{port}}
+
+### devuelve los gastos asociados a un grupo 
+GET {{url}}/api/expenses/group/1
+
+### devuelve gastos de un grupo con el reparto para cada usuario que participa
+GET {{url}}/api/expenses/users/1
+
+### CREA UN GASTO PERO SIN ASIGNARLO A NADIE y a la vez un pago asignando su pagador.
+POST {{url}}/api/expenses/new
+Content-Type: application/json
+
+{
+    "nombre": "prueba de gasto con pago", 
+    "fecha": "2023-02-02", 
+    "cantidad": "100.80", 
+    "grupo_gasto_id": "2", 
+    "usuario_id": "11"
+}
+
+### MODIFICA UN GASTO.
+PUT {{url}}/api/expenses/update/14
+Content-Type: application/json
+
+{
+    "nombre": "prueba de gasto modificado con pagos", 
+    "fecha": "2023-02-02", 
+    "cantidad": "500.80"
+}
+
+### asigna un usuario a un gasto compartido.
+POST {{url}}/api/expenses/share
+Content-Type: application/json
+
+{
+    "usuario_id": "11", 
+    "gasto_id": "13", 
+    "participacion": 1.00
+}
+
+### modifica la participación de un usuario en un gasto.
+PUT {{url}}/api/expenses/updateshare
+Content-Type: application/json
+
+{
+    "usuario_id": "11", 
+    "gasto_id": "13", 
+    "participacion": 0.50
+}
+
+### borra a un participante de un gasto
+DELETE {{url}}/api/expenses/13/deleteuser/11
+
+### BORRA GASTO Y PAGO
+DELETE {{url}}/api/expenses/delete/16
