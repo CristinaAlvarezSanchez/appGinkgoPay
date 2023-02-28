@@ -22,6 +22,10 @@ const update = (id, { nombre, apellidos, alias, email, password }) => {
     return db.query('UPDATE usuarios SET nombre = ?, apellidos = ?, alias = ?, email = ?, password = ? WHERE id = ? ', [nombre, apellidos, alias, email, password, id]);
 }
 
+const updateToken = (token, email) =>{
+    return db.query('UPDATE usuarios SET token = ? WHERE email = ?', [token, email])
+}
+
 const deleteUser = (id) => {
     return db.query('DELETE FROM usuarios WHERE id = ?', [id]);
 }
@@ -33,5 +37,6 @@ module.exports = {
     getByEmailorAlias,
     getByEmail,
     update,
+    updateToken, 
     deleteUser
 }

@@ -1,6 +1,8 @@
-const { getByEmailorAlias, getById, getByGroup, create, getByEmail, update, deleteUser } = require('../../models/user.model');
+const { getByEmailorAlias, getById, getByGroup, create, getByEmail, update, deleteUser, updateToken } = require('../../models/user.model');
+const { createToken } = require('../../helpers/utils');
 
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
 
 // devuelve usuario que coincide con el id enviado por parámetro - Devuelve objeto
 router.get('/:id', async (req, res) => {
@@ -48,6 +50,7 @@ router.get('/group/:groupId', async (req, res) => {
 // crea un nuevo usuario 
 router.post('/register', async (req, res) => {
     try {
+        req.body.password = bcrypt.hashSync(req.body.password, 8)
         const [result] = await create(req.body);
         const [usuario] = await getById(result.insertId);
         res.json(usuario[0]);
@@ -61,13 +64,19 @@ router.post('/login', async (req, res) => {
     try {
         const [users] = await getByEmail(req.body.email);
         if (users.length === 0) {
-            return res.json({ fatal: 'Error usuarios y/o contraseña' });
+            return res.json({ fatal: 'Error usuario y/o contraseña' });
         }
         const user = users[0];
-        if (req.body.password !== user.password) {
-            return res.json({ fatal: 'Error usuarios y/o contraseña' });
+        const iguales = bcrypt.compareSync(req.body.password, user.password)
+        if (!iguales) {
+            return res.json({ fatal: 'Error usuario y/o contraseña' });
         }
-        res.json({ success: 'Login correcto' });
+        const token = createToken(user)
+        await updateToken(token, user.email)
+        res.json({
+            success: 'Login correcto',
+            token: token
+        });
     } catch (error) {
         res.json({ fatal: error.message });
     }
