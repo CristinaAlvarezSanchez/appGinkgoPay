@@ -11,9 +11,12 @@ const getByEmail = (email) => {
 }
 
 const getByGroup = (idGroup, autorizado = true) => {
-    return db.query('SELECT usuarios.id, usuarios.nombre, usuarios.apellidos , usuarios.alias, usuarios.email, rel_gru.tipo_usuario, rel_gru.autorizado FROM relacion_grupos_usuarios as rel_gru JOIN usuarios on rel_gru.usuarios_id = usuarios.id JOIN grupos_gasto on rel_gru.grupo_gasto_id = grupos_gasto.id WHERE grupos_gasto.id = ? and rel_gru.autorizado = ?', [idGroup, autorizado]);
+    return db.query('SELECT usuarios.id, usuarios.nombre, usuarios.apellidos , usuarios.alias, usuarios.email, rel_gru.tipo_usuario, rel_gru.autorizado FROM relacion_grupos_usuarios as rel_gru JOIN usuarios on rel_gru.usuario_id = usuarios.id JOIN grupos_gasto on rel_gru.grupo_gasto_id = grupos_gasto.id WHERE grupos_gasto.id = ? and rel_gru.autorizado = ?', [idGroup, autorizado]);
 }
 
+const getAllByGroup = (idGroup) => {
+    return db.query('SELECT usuarios.id, usuarios.nombre, usuarios.apellidos , usuarios.alias, usuarios.email, rel_gru.tipo_usuario, rel_gru.autorizado FROM relacion_grupos_usuarios as rel_gru JOIN usuarios on rel_gru.usuario_id = usuarios.id JOIN grupos_gasto on rel_gru.grupo_gasto_id = grupos_gasto.id WHERE grupos_gasto.id = ?', [idGroup]);
+}
 const create = ({ nombre, apellidos, alias, email, password }) => {
     return db.query('insert into usuarios (nombre, apellidos, alias, email, password) values (?,?,?,?,?)', [nombre, apellidos, alias, email, password]);
 }
@@ -22,7 +25,7 @@ const update = (id, { nombre, apellidos, alias, email, password }) => {
     return db.query('UPDATE usuarios SET nombre = ?, apellidos = ?, alias = ?, email = ?, password = ? WHERE id = ? ', [nombre, apellidos, alias, email, password, id]);
 }
 
-const updateToken = (token, email) =>{
+const updateToken = (token, email) => {
     return db.query('UPDATE usuarios SET token = ? WHERE email = ?', [token, email])
 }
 
@@ -34,9 +37,10 @@ module.exports = {
     create,
     getById,
     getByGroup,
+    getAllByGroup,
     getByEmailorAlias,
     getByEmail,
     update,
-    updateToken, 
+    updateToken,
     deleteUser
 }

@@ -9,3 +9,7 @@ Content-Type: application/json
 {
     "usuario_id": "11"
 }
+
+DEVUELVE LOS PAGOS DE UN USUARIO EN UN GRUPO
+###
+GET {{url}}/api/payments/users/1/group/1

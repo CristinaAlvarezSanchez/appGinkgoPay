@@ -1,4 +1,4 @@
-const { getByEmailorAlias, getById, getByGroup, create, getByEmail, update, deleteUser, updateToken } = require('../../models/user.model');
+const { getByEmailorAlias, getById, getByGroup, create, getByEmail, update, deleteUser, updateToken, getAllByGroup } = require('../../models/user.model');
 const { createToken } = require('../../helpers/utils');
 
 const router = require('express').Router();
@@ -10,7 +10,7 @@ router.get('/:id', async (req, res) => {
         const { id } = req.params;
         const [result] = await getById(id);
         if (result.length === 0) {
-            return res.json('no existe ningún usuario con estos datos');
+            return res.json(result);
         }
         res.json(result[0]);
     } catch (error) {
@@ -24,7 +24,7 @@ router.get('/search/:string', async (req, res) => {
         const { string } = req.params;
         const [result] = await getByEmailorAlias(string);
         if (result.length === 0) {
-            return res.json('no existe ningún usuario con estos datos');
+            return res.json(result);
         }
         res.json(result);
     }
@@ -37,9 +37,9 @@ router.get('/search/:string', async (req, res) => {
 router.get('/group/:groupId', async (req, res) => {
     try {
         const { groupId } = req.params;
-        const [usuarios] = await getByGroup(groupId);
+        const [usuarios] = await getAllByGroup(groupId);
         if (usuarios.length === 0) {
-            return res.json('no existe ningún usuario con estos datos');
+            return res.json(usuarios);
         }
         res.json(usuarios);
     } catch (error) {

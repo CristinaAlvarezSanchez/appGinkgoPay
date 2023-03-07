@@ -1,7 +1,29 @@
-const { getByGroup, getByGroupUser, create, getById, addUserExpense, getByIdUsers, updateUserExpense, deleteUserExpense, updateExpense, deleteExpense } = require('../../models/expense.model');
+const { getByGroup, getByGroupUser, create, getById, addUserExpense, getByIdUsers, updateUserExpense, deleteUserExpense, updateExpense, deleteExpense, getByGroupOneUser, getByIdShare, getByIdPay } = require('../../models/expense.model');
 const { createPayment, updatePayment, deletePayment } = require('../../models/payment.model');
 
 const router = require('express').Router();
+
+// devuelve todos los gastos asociados a un id de un grupo
+router.get('/:idExpense', async (req, res) => {
+    try {
+        const { idExpense } = req.params;
+        const [gastos] = await getByIdPay(idExpense)
+        res.json(gastos[0]);
+    } catch (error) {
+        res.json({ fatal: error.message });
+    }
+});
+
+// devuelve todos los gastos asociados a un id de un grupo
+router.get('/infoshare/:idExpense', async (req, res) => {
+    try {
+        const { idExpense } = req.params;
+        const [gastos] = await getByIdShare(idExpense)
+        res.json(gastos);
+    } catch (error) {
+        res.json({ fatal: error.message });
+    }
+});
 
 // devuelve todos los gastos asociados a un id de un grupo
 router.get('/group/:idGroup', async (req, res) => {
@@ -25,13 +47,26 @@ router.get('/users/:idGroup', async (req, res) => {
     }
 });
 
+//devuelve los gastos de un usuario (porcentaje de participación) asociados a un grupo
+router.get('/users/:idUser/group/:idGroup', async (req, res) => {
+    try {
+        const { idGroup, idUser } = req.params;
+        const [gastosUsuario] = await getByGroupOneUser(idGroup, idUser);
+        res.json(gastosUsuario);
+    } catch (error) {
+        res.json({ fatal: error.message });
+    }
+});
+
 // crea un gasto y un pago. El pago lo asocia al pagador el gasto está sin repartir - devuelve gasto
 router.post('/new', async (req, res) => {
     try {
         const [result] = await create(req.body);
-        const [gasto] = await getById(result.insertId);
+        console.log(result)
+        await getById(result.insertId)
         await createPayment(result.insertId, req.body);
-        res.json(gasto[0]);
+        const [gastos] = await getByIdPay(result.insertId)
+        res.json(gastos[0]);
 
     } catch (error) {
         res.json({ fatal: error.message });

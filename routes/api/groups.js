@@ -1,4 +1,5 @@
 const { getById, create, adUserGroup, updateName, updateState, deleteGroup, deleteUserGroup, getByUserId, updateUserAut } = require('../../models/group.model');
+const { getByGroup, getAllByGroup } = require('../../models/user.model');
 
 const router = require('express').Router();
 
@@ -43,7 +44,8 @@ router.get('/:groupId/adduser/:userId', async (req, res) => {
     try {
         const { groupId, userId } = req.params;
         const [result] = await adUserGroup(userId, groupId, 'miembro', false);
-        res.json(result);
+        const [usuarios] = await getAllByGroup(groupId);
+        res.json(usuarios);
     } catch (error) {
         res.json({ fatal: error.message });
     }

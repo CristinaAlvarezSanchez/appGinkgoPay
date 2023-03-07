@@ -2,11 +2,22 @@
 @port = 3000
 @url = {{hostname}}:{{port}}
 
+
+### devuelve el gasto por su id
+GET {{url}}/api/expenses/72
+
+
+### devuelve el gasto por su id
+GET {{url}}/api/expenses/infoshare/39
+
 ### devuelve los gastos asociados a un grupo 
-GET {{url}}/api/expenses/group/1
+GET {{url}}/api/expenses/group/2
 
 ### devuelve gastos de un grupo con el reparto para cada usuario que participa
-GET {{url}}/api/expenses/users/1
+GET {{url}}/api/expenses/users/2
+
+### devuelve gastos de usuario asociados a un grupo
+GET {{url}}/api/expenses/users/6/group/22
 
 ### CREA UN GASTO PERO SIN ASIGNARLO A NADIE y a la vez un pago asignando su pagador.
 POST {{url}}/api/expenses/new
@@ -16,8 +27,8 @@ Content-Type: application/json
     "nombre": "prueba de gasto con pago", 
     "fecha": "2023-02-02", 
     "cantidad": "100.80", 
-    "grupo_gasto_id": "2", 
-    "usuario_id": "11"
+    "grupo_gasto_id": "28", 
+    "usuario_id": "28"
 }
 
 ### MODIFICA UN GASTO.
@@ -35,9 +46,9 @@ POST {{url}}/api/expenses/share
 Content-Type: application/json
 
 {
-    "usuario_id": "11", 
-    "gasto_id": "13", 
-    "participacion": 1.00
+    "usuario_id": "25", 
+    "gasto_id": "18", 
+    "participacion": 0.50
 }
 
 ### modifica la participación de un usuario en un gasto.

@@ -13,11 +13,11 @@ POST {{url}}/api/groups/new/11
 Content-Type: application/json
 
 {
-    "nombre": "prueba de grupo"
+    "nombre": "prueba de grupo para ver reparto"
 }
 
 ### asigna usuarios a un grupo (miembros y sin autorizar). 
-GET {{url}}/api/groups/1/adduser/11
+GET {{url}}/api/groups/27/adduser/25
 
 ### para autorizar la participación en el grupo. 
 GET {{url}}/api/groups/2/authorization/11
@@ -41,5 +41,5 @@ Content-Type: application/json
 ###  borra un grupo en base a su id res ok
 DELETE {{url}}/api/groups/delete/10
 
-###  borra un usuario de un grupo res ok
+###  borra un usuario decons un grupo res ok
 DELETE {{url}}/api/groups/9/userdelete/11
