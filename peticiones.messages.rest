@@ -1,0 +1,51 @@
+@hostname = http://localhost
+@port = 3000
+@url = {{hostname}}:{{port}}
+
+### devuelve objeto con el mensaje busqueda por id
+GET {{url}}/api/messages/1
+
+### devuelve array con relaciones de mensaje enviado y recibido para un id de mensaje
+GET {{url}}/api/messages/users/2
+
+### devuelve array con relaciones de mensajes enviados y recibidos para un id de usuario
+GET {{url}}/api/messages/users/2
+
+### devuelve array con los mensajes de un uusario
+
+GET {{url}}/api/messages/inbox/28
+
+### crea un mensaje
+POST {{url}}/api/messages/create
+Content-Type: application/json
+
+{
+    "titulo": "Mensaje de prueba nuevo", 
+    "texto": "NNUEVO MENSAJE DE NUEVO PRUEBA"
+}
+
+### crea relaciones de enviados y recibidos
+POST {{url}}/api/messages/send
+Content-Type: application/json
+
+{
+    "userId": "27", 
+    "mensajeId": "4", 
+    "tipo": "recibido"
+}
+
+### marca la hora de leido de un mensaje
+PUT {{url}}/api/messages/open
+Content-Type: application/json
+
+{
+    "hora": "2023-03-07 13:26:13", 
+    "mensajeId": "3", 
+    "userId": "27"
+}
+
+### elimina un mensaje del inbox
+GET {{url}}/api/messages/trash/2/27
+
+### elimina un mensaje
+DELETE {{url}}/api/messages/DELETE/1

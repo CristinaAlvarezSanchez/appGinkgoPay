@@ -6,10 +6,10 @@ const createToken = (user) => {
     const obj = {
         user_id: user.id,
         user_alias: user.alias,
-        user_nombre:user.nombre, 
+        user_nombre: user.nombre,
         exp: dayjs().add(30, 'days').unix()
     }
-    return jwt.sign(obj, 'clave secreta super secreta');
+    return jwt.sign(obj, process.env.SECRET_KEY);
 }
 
 module.exports = {
